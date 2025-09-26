@@ -51,12 +51,16 @@ def load_project_data():
 
 @st.cache_data
 def get_geojson():
-    """Fetches and caches the GeoJSON for PH regions."""
-    url = "https://raw.githubusercontent.com/gjevel/philippines-geojson/master/regions/ph-regions-no-islands.json"
+    """Fetches and caches the GeoJSON for PH regions from a reliable URL."""
+    # This is a new, working URL for the GeoJSON file
+    url = "https://raw.githubusercontent.com/faeldon/philippines-json-maps/master/geojson/regions.json"
     try:
         response = requests.get(url)
         response.raise_for_status()
-        return response.json()
+        # This new GeoJSON has a different structure, so we specify the feature key path
+        geojson_data = response.json()
+        # The key to identify regions is now 'properties.REGION'
+        return geojson_data, "properties.REGION" 
     except requests.exceptions.RequestException as e:
         st.error(f"Failed to fetch GeoJSON from URL: {e}")
-        return None
+        return None, None
