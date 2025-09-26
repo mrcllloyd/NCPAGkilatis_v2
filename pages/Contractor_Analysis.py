@@ -13,14 +13,14 @@ if df is not None:
     with col1:
         st.subheader("Top 15 Contractors by Project Count")
         contractor_counts = df['Contractor'].value_counts().nlargest(15).reset_index()
-        fig = px.bar(contractor_counts, x='count', y='Contractor', orientation='h', template='plotly_white')
+        fig = px.bar(contractor_counts, x='count', y='Contractor', orientation='h', template='plotly_white', title="Number of Projects Awarded")
         fig.update_layout(yaxis={'categoryorder':'total ascending'})
         st.plotly_chart(fig, use_container_width=True)
     
     with col2:
         st.subheader("Top 15 Contractors by Total Contract Value")
         contractor_value = df.groupby('Contractor')['ContractCost'].sum().nlargest(15).reset_index()
-        fig2 = px.bar(contractor_value, x='ContractCost', y='Contractor', orientation='h', template='plotly_white')
+        fig2 = px.bar(contractor_value, x='ContractCost', y='Contractor', orientation='h', template='plotly_white', title="Total Value of Contracts (PHP)")
         fig2.update_layout(yaxis={'categoryorder':'total ascending'})
         st.plotly_chart(fig2, use_container_width=True)
 
