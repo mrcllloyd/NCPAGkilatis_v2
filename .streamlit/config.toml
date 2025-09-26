@@ -1,6 +1,10 @@
 [theme]
-primaryColor="#0061A8"
 base="light"
+primaryColor="#0061A8"
 
 [server]
 headless=true
+cookieSecret="replace-me"  # (any random string)
+
+[client]
+showErrorDetails=false
