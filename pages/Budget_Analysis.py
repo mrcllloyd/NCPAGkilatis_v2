@@ -4,7 +4,7 @@ import plotly.express as px
 
 # --- Page Configuration ---
 st.set_page_config(layout="wide")
-st.title(" National Budget Analysis")
+st.title("National Budget Analysis")
 st.markdown("This page analyzes the DPWH budget over time, with a focus on flood management and comparisons to the national budget.")
 
 # --- Helper function to clean currency strings ---
@@ -88,7 +88,6 @@ except Exception as e:
 st.markdown("---")
 
 # --- Section 3: DPWH Budget vs. Other Departments ---
-# This part of the code is likely fine but is included for completeness.
 st.header("DPWH vs. Other National Agencies (2025 GAA)")
 try:
     df_nga = pd.read_csv("data/NGAs Budget per FY.xlsx - TOTAL GAA per Agency.csv", header=4)
