@@ -28,7 +28,7 @@ try:
         yearly_budget, x='FISCAL YEAR', y='AMOUNT',
         title="Total DPWH Budget per Year (GAA)", markers=True, template='plotly_white'
     )
-    fig_yearly.update_layout(yaxis_title="Budget (in PHP Billions)", yaxis_tickformat=",.0s")
+    fig_yearly.update_layout(yaxis_title="Budget (in PHP Billions)", yaxis_tickformat=",.0s", xaxis_title="Fiscal Year")
     st.plotly_chart(fig_yearly, use_container_width=True)
 
 except Exception as e:
@@ -63,13 +63,13 @@ try:
     with col1:
         st.subheader("Comparison by Program")
         df_melted = df_dpwh_nep_gaa.melt(id_vars='Program', value_vars=['NEP', 'GAA'], var_name='BudgetType', value_name='Amount')
-        fig_nep_gaa = px.bar(df_melted, x='Amount', y='Program', color='BudgetType', barmode='group', orientation='h', template='plotly_white')
+        fig_nep_gaa = px.bar(df_melted, x='Amount', y='Program', color='BudgetType', barmode='group', orientation='h', template='plotly_white', title="2025 Proposed vs. Approved Budget")
         fig_nep_gaa.update_layout(xaxis_title="Budget (in PHP)", yaxis_title=None, yaxis={'categoryorder':'total ascending'})
         st.plotly_chart(fig_nep_gaa, use_container_width=True)
 
     with col2:
         st.subheader("Variance Analysis (GAA minus NEP)")
-        fig_variance = px.bar(df_dpwh_nep_gaa, x='Variance', y='Program', orientation='h', color='Variance', color_continuous_scale='RdBu', template='plotly_white')
+        fig_variance = px.bar(df_dpwh_nep_gaa, x='Variance', y='Program', orientation='h', color='Variance', color_continuous_scale='RdBu', template='plotly_white', title="Budget Changes During Legislation")
         fig_variance.update_layout(xaxis_title="Change in Budget (PHP)", yaxis_title=None, yaxis={'categoryorder':'total ascending'})
         st.plotly_chart(fig_variance, use_container_width=True)
 
@@ -101,9 +101,10 @@ try:
             break
             
     if header_row_index is not None:
-        df_nga = df_nga_raw.iloc[header_row_index+1:]
-        df_nga.columns = df_nga_raw.iloc[header_row_index]
-        df_nga = df_nga.reset_index(drop=True)
+        # Set the correct header and drop the rows above it
+        df_nga = df_nga_raw.iloc[header_row_index:].reset_index(drop=True)
+        df_nga.columns = df_nga.iloc[0]
+        df_nga = df_nga.drop(0).reset_index(drop=True)
         
         # Now proceed with the cleaned dataframe
         df_2025_nga = df_nga[['AGENCY NAME', 2025]].dropna()
