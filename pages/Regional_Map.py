@@ -6,22 +6,22 @@ st.set_page_config(layout="wide")
 st.title(" Geographic Map of Projects")
 
 df = load_project_data()
-geojson = get_geojson()
+geojson, feature_key = get_geojson()
 
 if df is not None and geojson is not None:
-    map_metric = st.sidebar.selectbox("Select Metric", options=['Total Contract Cost', 'Number of Projects'])
+    map_metric = st.sidebar.selectbox("Select Metric to Display on Map", options=['Total Contract Cost', 'Number of Projects'])
 
     if map_metric == 'Total Contract Cost':
-        agg_data = df.groupby('Region_std')['ContractCost'].sum().reset_index()
+        agg_data = df.groupby('Region_for_map')['ContractCost'].sum().reset_index()
         color_col = 'ContractCost'
     else:
-        agg_data = df.groupby('Region_std').size().reset_index(name='Number of Projects')
+        agg_data = df.groupby('Region_for_map').size().reset_index(name='Number of Projects')
         color_col = 'Number of Projects'
 
     st.subheader(f"Map of {map_metric} by Region")
     fig = px.choropleth_mapbox(
-        agg_data, geojson=geojson, locations='Region_std',
-        featureidkey="properties.region_name", color=color_col,
+        agg_data, geojson=geojson, locations='Region_for_map',
+        featureidkey=feature_key, color=color_col,
         color_continuous_scale="Viridis", mapbox_style="carto-positron",
         zoom=4.5, center = {"lat": 12.8797, "lon": 121.7740}, opacity=0.6,
     )
