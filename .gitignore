@@ -8,3 +8,8 @@ __pycache__/
 .venv
 env/
 venv/
+
+# .gitignore (additions)
+data/*
+!.gitkeep
+.streamlit/secrets.toml
