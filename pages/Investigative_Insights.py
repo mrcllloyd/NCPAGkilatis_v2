@@ -3,7 +3,7 @@ import plotly.express as px
 from utils import load_project_data
 
 st.set_page_config(layout="wide")
-st.title("Investigative Insights & Contractor Networks")
+st.title(" Investigative Insights & Contractor Networks")
 st.markdown("This page connects project data to findings from the policy note on contract concentration.")
 
 df = load_project_data()
@@ -23,7 +23,7 @@ if df is not None:
     st.markdown("The treemap below illustrates the distribution of contract values among key contractors identified in the policy note and related inquiries.")
     treemap_data = interest_df.groupby('Contractor')['ContractCost'].sum().reset_index()
 
-    fig = px.treemap(treemap_data, path=[px.Constant("All Contractors"), 'Contractor'], values='ContractCost', color='ContractCost', color_continuous_scale='Reds')
+    fig = px.treemap(treemap_data, path=[px.Constant("All Contractors"), 'Contractor'], values='ContractCost', color='ContractCost', color_continuous_scale='Reds', title='Distribution of Total Contract Value Among Key Contractors')
     st.plotly_chart(fig, use_container_width=True)
 
     col1, col2 = st.columns([2,1])
@@ -40,4 +40,3 @@ if df is not None:
     
     st.subheader("Further Reading")
     st.markdown("- [Inquirer.net: Senate blue ribbon panel seeks lookout bulletin...](https://globalnation.inquirer.net/290127/senate-blue-ribbon-panel-seeks-lookout-bulletin-vs-contractors-dpwh-officials)")
-    st.markdown("- [Politiko: Discaya admits owning 9 firms...](https://politiko.com.ph/2025/09/01/umamin-din-discaya-admits-owning-9-firms-that-bagged-flood-control-deals/politiko-lokal/)")
