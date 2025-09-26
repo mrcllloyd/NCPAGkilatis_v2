@@ -4,7 +4,7 @@ import plotly.express as px
 
 # --- Page Configuration ---
 st.set_page_config(layout="wide")
-st.title("💰 National Budget Analysis")
+st.title(" National Budget Analysis")
 st.markdown("This page analyzes the DPWH budget over time, with a focus on flood management and comparisons to the national budget.")
 
 # --- Helper function to clean currency strings ---
