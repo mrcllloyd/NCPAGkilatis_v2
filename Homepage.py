@@ -1,23 +1,16 @@
 import streamlit as st
 import plotly.express as px
-from utils import load_project_data # Import the function
+from utils import load_project_data
 
-# Page Config
-st.set_page_config(
-    page_title="NCPAGkilatis Dashboard",
-    layout="wide"
-)
+st.set_page_config(page_title="NCPAGkilatis Dashboard", page_icon="🌊", layout="wide")
 
-# Load Data
-df = load_project_data()
-
-# Header
 st.title("NCPAGkilatis: DPWH Project Dashboard")
 st.markdown("Welcome! This dashboard provides an overview of DPWH projects. Use the sidebar to explore different analyses.")
-st.markdown("---")
+
+df = load_project_data()
 
 if df is not None:
-    # KPIs
+    st.markdown("---")
     st.header("National Overview")
     total_projects = df.shape[0]
     total_cost = df['ContractCost'].sum()
@@ -31,8 +24,6 @@ if df is not None:
     col4.metric("Average Delay Duration", f"{avg_delay:,.0f} days")
 
     st.markdown("---")
-
-    # Homepage Charts
     st.header("High-Level Insights")
     col1, col2 = st.columns(2)
     with col1:
@@ -46,5 +37,3 @@ if df is not None:
         term_counts = df['PresTerm'].value_counts().reset_index()
         fig2 = px.pie(term_counts, names='PresTerm', values='count', title='Number of Projects Initiated per Term', hole=0.4)
         st.plotly_chart(fig2, use_container_width=True)
-else:
-    st.info("Awaiting data file to be loaded.")
